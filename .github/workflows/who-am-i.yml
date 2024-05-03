@@ -7,6 +7,9 @@ on:
 jobs:
   checkout:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+
     steps:
       - name: Check Responses (v3)
         run: |
@@ -15,7 +18,7 @@ jobs:
 
       - name: Check Viewer (GraphQL)
         run: |
-          gh api graphql query=" \
+          gh api graphql -f query=" \
            { \
              \"query\": \"query { viewer { login }}\" \
            } \
