@@ -1,0 +1,29 @@
+name: who am i?
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  checkout:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test ssh
+        run: |
+          ssh git@github.com ||
+          true
+      - name: Check Responses (v3)
+        run: |
+          curl -vvv -H "Authorization: bearer $GITHUB_TOKEN" https://api.github.com/user ||
+          true
+
+      - name: Check Viewer (GraphQL)
+        run: |
+          curl -H "Authorization: bearer $GITHUB_TOKEN" -X POST -d " \
+           { \
+             \"query\": \"query { viewer { login }}\" \
+           } \
+          " https://api.github.com/graphql ||
+          true
