@@ -13,14 +13,10 @@ jobs:
     steps:
       - name: Check Responses (v3)
         run: |
-          gh api https://api.github.com/user ||
+          gh api https://api.github.com/app ||
           true
 
       - name: Check Viewer (GraphQL)
         run: |
-          gh api graphql -f query=" \
-           { \
-             \"query\": \"query { viewer { login }}\" \
-           } \
-          " ||
+          gh api graphql -f query='query { viewer { login }}" ||
           true
